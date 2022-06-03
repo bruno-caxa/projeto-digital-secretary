@@ -1,0 +1,108 @@
+<html xmlns="http://www.w3.org/I999/xhtml" xmlns:th="http://www.thymeleaf.org"
+  										   xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<nav class="pcoded-navbar">
+	<div class="sidebar_toggle">
+		<a href="#"><i class="icon-close icons"></i></a>
+	</div>
+	<div class="pcoded-inner-navbar main-menu">
+		<div class="">
+			<div class="main-menu-header">
+				<img class="img-80 img-radius" src="assets/images/avatar-blank.jpg"	alt="User-Profile-Image"></img>
+				<div class="user-details">
+					<span id="more-details" th:text="${user.username}">
+						<i class="fa fa-caret-down"></i>
+					</span>
+				</div>
+			</div>
+
+			<div class="main-menu-content">
+				<ul>
+					<li class="more-details">
+							<a
+								href="/profile">
+								<i class="ti-user"></i>View Profile
+							</a>
+						 <a href="assetsLogoutServlet"> <i
+							class="ti-layout-sidebar-left"></i>Logout
+					</a></li>
+				</ul>
+			</div>
+
+		</div>
+
+		<ul class="pcoded-item pcoded-left-item">
+			<li class="pcoded-hasmenu"><a href="javascript:void(0)"
+				class="waves-effect waves-dark"> <span class="pcoded-micon"><i
+						class="ti-layout-grid2-alt"></i></span> <span class="pcoded-mtext"
+					data-i18n="nav.basic-components.main">Options</span> <span
+					class="pcoded-mcaret"></span>
+			</a>
+
+
+				<ul class="pcoded-submenu">
+
+						<li class=" " sec:authorize="hasRole('ADMIN')">
+							<a href="/addDiscipline" class="waves-effect waves-dark"> 
+								<span class="pcoded-micon">
+									<i class="ti-angle-right"></i>
+								</span> 
+								<span class="pcoded-mtext" data-i18n="nav.basic-components.alert">
+									Add Discipline
+								</span> 
+								<span class="pcoded-mcaret"></span>
+							</a>
+						</li>
+						
+						<li class=" " sec:authorize="hasRole('ADMIN')">
+							<a href="/listDisciplines" class="waves-effect waves-dark"> 
+								<span class="pcoded-micon">
+									<i class="ti-angle-right"></i>
+								</span> 
+								<span class="pcoded-mtext" data-i18n="nav.basic-components.alert">
+									List Disciplines
+								</span> 
+								<span class="pcoded-mcaret"></span>
+							</a>
+						</li>
+						
+						<li class=" " sec:authorize="hasRole('ADMIN')">
+							<a href="/listStudents" class="waves-effect waves-dark"> 
+								<span class="pcoded-micon">
+									<i class="ti-angle-right"></i>
+								</span> 
+								<span class="pcoded-mtext" data-i18n="nav.basic-components.alert">
+									Students
+								</span> 
+								<span class="pcoded-mcaret"></span>
+							</a>
+						</li>
+						
+						<li class=" " sec:authorize="hasRole('STUDENT')">
+							<a href="/listDisciplines" class="waves-effect waves-dark"> 
+								<span class="pcoded-micon">
+									<i class="ti-angle-right"></i>
+								</span> 
+								<span class="pcoded-mtext" data-i18n="nav.basic-components.alert">
+									Enrollment
+								</span> 
+								<span class="pcoded-mcaret"></span>
+							</a>
+						</li>
+						
+						<li class=" " sec:authorize="hasRole('STUDENT')">
+							<a href="/enrolledDisciplines" class="waves-effect waves-dark"> 
+								<span class="pcoded-micon">
+									<i class="ti-angle-right"></i>
+								</span> 
+								<span class="pcoded-mtext" data-i18n="nav.basic-components.alert">
+									Enrolled Disciplines
+								</span> 
+								<span class="pcoded-mcaret"></span>
+							</a>
+						</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+</nav>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/I999/xhtml" xmlns:th="http://www.thymeleaf.org"
+  										   xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+  										   
+<div th:include="includes/head.html"></div>
+
+<body>
+
+	<!-- Pre-loader start -->
+	<div th:include="includes/theme-loader.html"></div>
+
+	<!-- Pre-loader end -->
+	<div id="pcoded" class="pcoded">
+		<div class="pcoded-overlay-box"></div>
+		<div class="pcoded-container navbar-wrapper">
+
+			<div th:include="includes/navbar.html"></div>
+
+			<div class="pcoded-main-container">
+				<div class="pcoded-wrapper">
+
+					<div th:include="includes/navbarmainmenu.html"></div>
+
+					<div class="pcoded-content">
+						<!-- Page-header start -->
+						<div th:include="includes/pageheader.html"></div>
+						<!-- Page-header end -->
+						<div class="pcoded-inner-content">
+							<!-- Main-body start -->
+							<div class="main-body">
+								<div class="page-wrapper">
+									<!-- Page-body start -->
+									<div class="page-body">
+
+										<div class="card">
+											<div class="card-header">
+												<h4>Select One Discipline</h4>
+											</div>
+												<div class="card-block table-border-style">
+													<div class="table-responsive">
+														<table class="table">
+															<thead>
+																<tr>
+																	<th>Name</th>
+																	<th>Total Classes</th>
+																	<th>Action</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr th:each = "discipline : ${disciplines}">
+																	<td th:text = "${discipline.name}"></td>
+																	<td th:text = "${discipline.total_classes}"></td>
+																	<td><a th:href="@{/enrollment/{id_discipline}(id_discipline=${discipline.id})}" class="btn btn-danger waves-effect waves-light">Enroll</a></td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+										</div>
+									</div>
+									<!-- Page-body end -->
+								</div>
+								<div id="styleSelector"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div th:include="includes/jsfile.html"></div>
+
+</body>
+
+</html>
