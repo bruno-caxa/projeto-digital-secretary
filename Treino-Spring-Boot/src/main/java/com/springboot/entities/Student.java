@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name ="`student`")
-public class Student extends User {
+public class Student extends People {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -27,12 +27,11 @@ public class Student extends User {
 		
 	}
 	
-	public Student(Long id, String login, String password, String ra, 
-				   String name, String telephone, String email) {
-		super(id, login, password, name, telephone, email);
+	public Student(Long id, String ra, String name, String telephone, String email) {
+		super(id, name, telephone, email);
 		this.ra = ra;
 	}
-
+	
 	public String getRa() {
 		return ra;
 	}

@@ -1,7 +1,9 @@
 package com.springboot.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -16,17 +18,27 @@ public class Enrollment implements Serializable {
 	
 	@EmbeddedId
 	private Enrollment_pk id = new Enrollment_pk();
+	
+	@Column(nullable = false)
 	private Status status;
+	
+	@Column(nullable = false)
+	private Date dateStart;
+	
+	@Column(nullable = false)
+	private Date dateEnd;
 	
 	public Enrollment() {
 		
 	}
 	
-	public Enrollment(Student student, Course course, Status status) {
+	public Enrollment(Student student, Discipline discipline, Status status, Date dateStart, Date dateEnd) {
 		super();
 		id.setStudent(student);
-		id.setCourse(course);
+		id.setDiscipline(discipline);
 		this.status = status;
+		this.dateStart = dateStart;
+		this.dateEnd = dateEnd;
 	}
 
 	public Student getStudent() {
@@ -37,12 +49,12 @@ public class Enrollment implements Serializable {
 		id.setStudent(student);
 	}
 	
-	public Course getCourse() {
-		return id.getCourse();
+	public Discipline getDiscipline() {
+		return id.getDiscipline();
 	}
 	
-	public void setCourse(Course course) {
-		id.setCourse(course);
+	public void setDiscipline(Discipline discipline) {
+		id.setDiscipline(discipline);
 	}
 
 	public Status getStatus() {
@@ -51,6 +63,22 @@ public class Enrollment implements Serializable {
 
 	public void setStatus(Status status) {
 		this.status = status;
+	}
+
+	public Date getDateStart() {
+		return dateStart;
+	}
+
+	public void setDateStart(Date dateStart) {
+		this.dateStart = dateStart;
+	}
+
+	public Date getDateEnd() {
+		return dateEnd;
+	}
+
+	public void setDateEnd(Date dateEnd) {
+		this.dateEnd = dateEnd;
 	}
 	
 }

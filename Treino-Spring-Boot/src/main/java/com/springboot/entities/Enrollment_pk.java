@@ -12,8 +12,8 @@ public class Enrollment_pk implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@ManyToOne()
-	@JoinColumn(name = "course_id")
-	private Course course;
+	@JoinColumn(name = "discipline_id")
+	private Discipline discipline;
 	
 	@ManyToOne()
 	@JoinColumn(name = "student_id")
@@ -23,18 +23,18 @@ public class Enrollment_pk implements Serializable {
 		
 	}
 	
-	public Enrollment_pk(Course course, Student student) {
+	public Enrollment_pk(Discipline discipline, Student student) {
 		super();
-		this.course = course;
+		this.discipline = discipline;
 		this.student = student;
 	}
 
-	public Course getCourse() {
-		return course;
+	public Discipline getDiscipline() {
+		return discipline;
 	}
 
-	public void setCourse(Course course) {
-		this.course = course;
+	public void setDiscipline(Discipline discipline) {
+		this.discipline = discipline;
 	}
 
 	public Student getStudent() {
