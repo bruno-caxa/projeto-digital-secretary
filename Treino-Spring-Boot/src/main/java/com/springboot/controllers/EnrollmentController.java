@@ -1,23 +1,17 @@
 package com.springboot.controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.springboot.entities.Enrollment;
 import com.springboot.entities.Student;
 import com.springboot.services.EnrollmentService;
 import com.springboot.services.StudentService;
 import com.springboot.services.UserService;
 
-@RestController
+@Controller
 public class EnrollmentController {
 
 	@Autowired
@@ -29,16 +23,10 @@ public class EnrollmentController {
 	@Autowired
 	private UserService userService;
 	
-	@GetMapping(value = "/disciplinesEnrolled")
-	public ResponseEntity<List<Enrollment>> disciplinesEnrolled(@RequestParam String cpf) {
-		List<Enrollment> enrollments = enrollmentService.findByCpf(cpf);
-		return new ResponseEntity<List<Enrollment>>(enrollments, HttpStatus.OK);
-	}
-	
-	@GetMapping(value = "/enrollment/{id_discipline}")
-	public ModelAndView enrollmentStudent(@PathVariable Long id_discipline) {
-		ModelAndView mav = new ModelAndView("/principal/index");
-		Student student = studentService.loadByIdUser();
+	@PostMapping(value = "/enrollment")
+	public ModelAndView enrollmentStudent(@RequestParam Long id_discipline) {
+		ModelAndView mav = new ModelAndView("principal/index");
+		Student student = studentService.findByIdUser();
 		
 		enrollmentService.enrollmentStudent(student.getId(), id_discipline);
 		mav.addObject("user", userService.loadUserSession());
@@ -46,10 +34,10 @@ public class EnrollmentController {
 		return mav;
 	}
 	
-	@GetMapping(value = "/unenrollment/{id_discipline}")
-	public ModelAndView unenrollmentStudent(@PathVariable Long id_discipline) {
-		ModelAndView mav = new ModelAndView("/principal/index");
-		Student student = studentService.loadByIdUser();
+	@PostMapping(value = "/unenrollment")
+	public ModelAndView unenrollmentStudent(@RequestParam Long id_discipline) {
+		ModelAndView mav = new ModelAndView("principal/index");
+		Student student = studentService.findByIdUser();
 		
 		enrollmentService.unenrollmentStudent(student.getId(), id_discipline);
 		mav.addObject("user", userService.loadUserSession());

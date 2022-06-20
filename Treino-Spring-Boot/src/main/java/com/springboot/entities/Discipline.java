@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,7 +36,7 @@ public class Discipline implements Serializable {
 	private Teacher teacher;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "id.discipline")
+	@OneToMany(mappedBy = "id.discipline", cascade = CascadeType.ALL)
 	private Set<Enrollment> enrollments = new HashSet<>();
 	
 	public Discipline() {

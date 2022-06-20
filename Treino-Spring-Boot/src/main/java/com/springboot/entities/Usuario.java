@@ -1,7 +1,8 @@
 package com.springboot.entities;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -39,7 +40,7 @@ public class Usuario implements UserDetails {
 	@JoinTable(name = "usuarios_role", 
 		       joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id", table = "usuario"),
 		       inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id", table = "role"))
-	private List<Role> roles;
+	private Set<Role> roles = new HashSet<>();
 	
 	public Usuario() {
 		
@@ -71,6 +72,10 @@ public class Usuario implements UserDetails {
 		this.username = username;
 	}
 	
+	public Set<Role> getRoles() {
+		return roles;
+	}
+	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return roles;
@@ -94,6 +99,10 @@ public class Usuario implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return true;
+	}
+	
+	public boolean isAdmin() {
+		return roles.stream().anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
 	}
 
 }

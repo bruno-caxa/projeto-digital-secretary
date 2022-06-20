@@ -18,11 +18,11 @@
 			<div class="main-menu-content">
 				<ul>
 					<li class="more-details">
-							<a
-								href="/profile">
-								<i class="ti-user"></i>View Profile
+							<a href="/profile" sec:authorize="hasAnyRole('STUDENT','TEACHER')">
+								<i class="ti-user"></i>
+								View Profile
 							</a>
-						 <a href="assetsLogoutServlet"> <i
+						 <a href="/logout"> <i
 							class="ti-layout-sidebar-left"></i>Logout
 					</a></li>
 				</ul>
@@ -54,6 +54,42 @@
 						</li>
 						
 						<li class=" " sec:authorize="hasRole('ADMIN')">
+							<a href="/addStudent" class="waves-effect waves-dark"> 
+								<span class="pcoded-micon">
+									<i class="ti-angle-right"></i>
+								</span> 
+								<span class="pcoded-mtext" data-i18n="nav.basic-components.alert">
+									Add Student
+								</span> 
+								<span class="pcoded-mcaret"></span>
+							</a>
+						</li>
+						
+						<li class=" " sec:authorize="hasRole('ADMIN')">
+							<a href="/addTeacher" class="waves-effect waves-dark"> 
+								<span class="pcoded-micon">
+									<i class="ti-angle-right"></i>
+								</span> 
+								<span class="pcoded-mtext" data-i18n="nav.basic-components.alert">
+									Add Teacher
+								</span> 
+								<span class="pcoded-mcaret"></span>
+							</a>
+						</li>
+						
+						<li class=" " sec:authorize="hasRole('ADMIN')">
+							<a href="/enrollTeacherDiscipline" class="waves-effect waves-dark"> 
+								<span class="pcoded-micon">
+									<i class="ti-angle-right"></i>
+								</span> 
+								<span class="pcoded-mtext" data-i18n="nav.basic-components.alert">
+									Enroll Teacher
+								</span> 
+								<span class="pcoded-mcaret"></span>
+							</a>
+						</li>
+						
+						<li class=" " sec:authorize="hasRole('ADMIN')">
 							<a href="/listDisciplines" class="waves-effect waves-dark"> 
 								<span class="pcoded-micon">
 									<i class="ti-angle-right"></i>
@@ -71,7 +107,19 @@
 									<i class="ti-angle-right"></i>
 								</span> 
 								<span class="pcoded-mtext" data-i18n="nav.basic-components.alert">
-									Students
+									List Students
+								</span> 
+								<span class="pcoded-mcaret"></span>
+							</a>
+						</li>
+						
+						<li class=" " sec:authorize="hasRole('ADMIN')">
+							<a href="/listTeachers" class="waves-effect waves-dark"> 
+								<span class="pcoded-micon">
+									<i class="ti-angle-right"></i>
+								</span> 
+								<span class="pcoded-mtext" data-i18n="nav.basic-components.alert">
+									List Teachers
 								</span> 
 								<span class="pcoded-mcaret"></span>
 							</a>

@@ -34,30 +34,47 @@
 
 										<div class="card">
 											<div class="card-header">
-												<h4>Select One Discipline</h4>
+												<h4>Available Disciplines</h4>
 											</div>
+											
+											<div style="padding-left:23px;" sec:authorize="hasRole('ADMIN')">
+												<h6>Click on the discipline's name to edit.</h6>											
+											</div>
+											
 												<div class="card-block table-border-style">
 													<div class="table-responsive">
+													
+													<div th:if="${disciplines.size > 0}">
+													  <form th:action="${!user.isAdmin} ? @{/enrollment} : @{/deleteDiscipline}" method="post">
 														<table class="table">
 															<thead>
 																<tr>
-																	<th>Name</th>
-																	<th>Total Classes</th>
-																	<th>Action</th>
+																  <th></th>
+																  <th>Name</th>
+																  <th>Total Classes</th>
+																  <th>Teacher</th>
 																</tr>
 															</thead>
 															<tbody>
 																<tr th:each = "discipline : ${disciplines}">
-																	<td th:text = "${discipline.name}"></td>
+																	<td><input type="radio" name="id_discipline" th:value="${discipline.id}" required></td>
+																	<td sec:authorize="hasRole('ADMIN')"><a data-toggle="modal" data-target="#disciplineModal" th:onclick="@{'editDiscipline('+${discipline.id}+');'}" th:text="${discipline.name}"></a></td>
+																	<td sec:authorize="hasRole('STUDENT')" th:text="${discipline.name}"></td>
 																	<td th:text = "${discipline.total_classes}"></td>
-																	<td><a th:href="@{/enrollment/{id_discipline}(id_discipline=${discipline.id})}" class="btn btn-danger waves-effect waves-light">Enroll</a></td>
-																</tr>
+																	<td th:text = "${discipline.teacher} != null ? ${discipline.teacher.name} : 'No Teacher'"></td>
+																</tr>	
 															</tbody>
-														</table>
-													</div>
+													    </table>
+															<input sec:authorize="hasRole('STUDENT')" class="btn btn-primary waves-effect waves-light" type="submit" value="Enroll">
+															<input sec:authorize="hasRole('ADMIN')" class="btn btn-danger" type="submit" value="Delete Discipline"> 
+													  </form>  
+													 </div>
+													 <div th:unless="${disciplines.size > 0}">
+														 	<span>No disciplines available!</span>
+													 </div> 
 												</div>
+											</div>
 										</div>
-									</div>
 									<!-- Page-body end -->
 								</div>
 								<div id="styleSelector"></div>
@@ -68,9 +85,65 @@
 			</div>
 		</div>
 	</div>
-
+   </div>
 	<div th:include="includes/jsfile.html"></div>
+	
+	<!-- Modal -->
+	<div class="modal fade" id="disciplineModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="exampleModalLabel">Edit Discipline</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
 
+				<div class="modal-body">
+				  <form class="form-material" action="saveDiscipline" method="post">
+				  		<input type="hidden" name="id" id="id">
+				  		<input type="hidden" name="total_classes" id="total_classes"> 
+					<div class="form-group form-default">
+						<input type="text" name="name" id="name" class="form-control" required> 
+						<span class="form-bar"></span> 
+						<label class="float-label">Name:</label>
+					</div>
+					<div class="form-group form-default">
+						<label class="form-label">Teacher:</label> 
+						<select name="id_teacher" id="id_teacher" class="form-control">
+							<option th:each="teacher : ${teachers}" th:value="${teacher.id}" th:text="${teacher.name}"></option>
+						</select>
+					</div>
+						<button type="submit" class="btn btn-primary">Save</button>
+				  </form>	
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"	data-dismiss="modal">Exit</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script type="text/javascript">
+		function editDiscipline(id) {
+			$.ajax({
+				method: "get",
+				url: "getDiscipline",
+				data: "id=" + id,
+				success: function(discipline) {
+					$('#id').val(discipline.id);
+					$('#name').val(discipline.name);
+					$('#total_classes').val(discipline.total_classes);
+					$('#id_teacher').val(discipline.teacher.id);
+				} 
+						
+				}).fail(function(xhr, status, errorThrown){
+					alert("Error: " + xhr.responseText);
+				});
+		}
+	</script>
+	
 </body>
 
 </html>

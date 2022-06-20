@@ -19,3 +19,4 @@ function formatDateBD(date) {
 	}
 	return day + '/' + month + '/' + year;
 }
+

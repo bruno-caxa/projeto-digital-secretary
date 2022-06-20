@@ -3,6 +3,7 @@ package com.springboot.entities;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -20,7 +21,7 @@ public class Student extends People {
 	private String ra;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "id.student")
+	@OneToMany(mappedBy = "id.student", cascade = CascadeType.ALL)
 	private Set<Enrollment> enrollments = new HashSet<>();
 	
 	public Student() {

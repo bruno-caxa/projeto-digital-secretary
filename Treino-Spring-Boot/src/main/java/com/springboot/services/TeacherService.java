@@ -7,13 +7,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.springboot.entities.Role;
-import com.springboot.entities.Student;
+import com.springboot.entities.Teacher;
 import com.springboot.entities.Usuario;
 import com.springboot.repositories.RoleRepository;
-import com.springboot.repositories.StudentRepository;
+import com.springboot.repositories.TeacherRepository;
 
 @Service
-public class StudentService {
+public class TeacherService {
 
 	@Autowired
 	private UserService userService;
@@ -22,37 +22,31 @@ public class StudentService {
 	private RoleRepository roleRepository;
 	
 	@Autowired
-	private StudentRepository studentRepository;
+	private TeacherRepository teacherRepository;
 	
-	public void delete(Long idStudent) {
-		studentRepository.deleteById(idStudent);
-	}
-	
-	public Student save(Student student, Usuario user) {
+	public Teacher save(Teacher teacher, Usuario user) {
 		if(user.getUsername() != null) {
-			Role role = roleRepository.getById(2l);
+			Role role = roleRepository.getById(3l);
 			String passwordEncode = new BCryptPasswordEncoder().encode(user.getPassword());
 			user.setPassword(passwordEncode);
 			user.getRoles().add(role);
 		} else {
 			user = userService.loadUserSession();
 		}
-		
-		student.setUsuario(user);
-		return studentRepository.save(student);
+		teacher.setUsuario(user);
+		return teacherRepository.save(teacher);
 	}
 	
-	public List<Student> findAllStudents() {
-		return studentRepository.findAll();
+	public List<Teacher> findAllTeachers() {
+		return teacherRepository.findAll();
 	}
 	
-	public Student findById(Long id) {
-		return studentRepository.findById(id).get();
+	public Teacher findById(Long id) {
+		return teacherRepository.findById(id).get();
 	}
 	
-	public Student findByIdUser() {
+	public Teacher findByIdUser() {
 		Usuario usuario = userService.loadUserSession();
-		return studentRepository.getByIdUser(usuario.getId());
+		return teacherRepository.getByIdUser(usuario.getId());
 	}
-	
 }

@@ -31,29 +31,37 @@
 								<div class="page-wrapper">
 									<!-- Page-body start -->
 									<div class="page-body">
-										<h4>Create new discipline</h4>
+										<h4>Enroll teacher in the subject</h4>
 										<div class="row">
 											<div class="col-sm-12">
 												<!-- Basic Form Inputs card start -->
 												<div class="card">
 													<div class="card-block">
+													
+													 <div th:if="${disciplines.size > 0}">
 														<h4 class="sub-title">Enter the information below:</h4>
-														
-														<form class="form-material" action="saveDiscipline" method="post">
+
+															<form class="form-material" action="enrollTeacher" method="post">
+
+																<div class="mb-3">
+																	<label class="form-label">Subjects without a teacher:</label>
+																	 <select name="discipline" class="form-control">
+																		<option th:each="discipline : ${disciplines}" th:value="${discipline.id}" th:text="${discipline.name}"></option>
+																	</select>
+																</div>
+																<div class="mb-3">
+																	<label class="form-label">Teacher:</label> 
+																	 <select name="teacher" class="form-control">
+																		<option th:each="teacher : ${teachers}" th:value="${teacher.id}" th:text="${teacher.name}"></option>
+																	</select>
+																</div>
+																<button class="btn btn-primary waves-effect waves-light">Enroll</button>
 															
-															<div class="form-group form-default">
-																<input type="text" name="name" id="name" class="form-control" required> 
-																<span class="form-bar"></span> 
-																<label class="float-label">Name:</label>
-															</div>
-															<div class="form-group form-default">
-																<input type="text" name="total_classes" id="total_classes" class="form-control" maxlength="4" required> 
-																<span class="form-bar"></span> 
-																<label class="float-label">Total classes:</label>
-															</div>
-															
-															<button class="btn btn-primary waves-effect waves-light">Create</button>
-														</form>
+															</form>
+													  </div>
+													  <div th:unless="${disciplines.size > 0}">
+														 	<span>No disciplines available!</span>
+													  </div>
 													</div>
 												</div>
 											</div>

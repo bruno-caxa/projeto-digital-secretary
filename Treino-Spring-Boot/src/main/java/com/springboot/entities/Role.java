@@ -38,5 +38,5 @@ public class Role implements GrantedAuthority {
 	public void setAuthority(String nomeRole) {
 		this.nomeRole = nomeRole;
 	}
-
+	
 }

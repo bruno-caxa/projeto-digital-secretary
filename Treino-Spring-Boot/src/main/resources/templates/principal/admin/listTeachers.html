@@ -34,11 +34,11 @@
 
 										<div class="card">
 											<div class="card-header">
-												<h4>All Students</h4>
+												<h4>All Teachers</h4>
 											</div>
 											
 											<div style="padding-left:23px;">
-												<h6>Click on the student's name to see the courses enrolled.</h6>											
+												<h6>Click on the teacher's name for the courses enrolled.</h6>											
 											</div>
 											
 												<div class="card-block table-border-style">
@@ -49,17 +49,15 @@
 																	<th>Name</th>
 																	<th>Email</th>
 																	<th>CPF</th>
-																	<th>RA</th>
-																	<th>Action</th>
+																	<th>Telephone</th>
 																</tr>
 															</thead>
 															<tbody>
-																<tr th:each = "student : ${students}">
-																	<td><a data-toggle="modal" data-target="#disciplineStudentModal" th:onclick="@{'studentEnrollments('+${student.id}+');'}" th:text="${student.name}"></a></td>
-																	<td th:text = "${student.email}"></td>
-																	<td th:text = "${student.cpf}"></td>
-																	<td th:text = "${student.ra}"></td>
-																	<td><a th:href="@{/deleteStudent/{idStudent}(idStudent=${student.id})}" class="btn btn-danger">Delete</a></td>
+																<tr th:each = "teacher : ${teachers}">
+																	<td><a data-toggle="modal" data-target="#disciplineTeacherModal" th:onclick="@{'teacherDisciplines('+${teacher.id}+');'}" th:text="${teacher.name}"></a></td>
+																	<td th:text = "${teacher.email}"></td>
+																	<td th:text = "${teacher.cpf}"></td>
+																	<td th:text = "${teacher.telephone}"></td>
 																</tr>
 															</tbody>
 														</table>
@@ -82,11 +80,11 @@
 	<div th:include="includes/jsfile.html"></div>
 
 	<!-- Modal -->
-	<div class="modal fade" id="disciplineStudentModal" tabindex="-1" role="dialog"	aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal fade" id="disciplineTeacherModal" tabindex="-1" role="dialog"	aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title" id="exampleModalLabel">Student subjects</h4>
+					<h4 class="modal-title" id="exampleModalLabel">Teacher subjects</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -98,9 +96,8 @@
 							<thead>
 								<tr>
 									<th scope="col">Discipline</th>
-									<th scope="col">Date Start</th>
-									<th scope="col">Date End</th>
 									<th scope="col">Total Classes</th>
+									<th scope="col">Students Enrolled</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -118,23 +115,20 @@
 	</div>
 	
 	<script type="text/javascript">
-	function studentEnrollments(id) {
+	function teacherDisciplines(teacherId) {
 		$.ajax({
 			method: "get",
-			url: "studentEnrollments",
-			data: "id=" + id,
-			success: function(response) {
-
-				var json = response;
+			url: "teacherDisciplines",
+			data: "id=" + teacherId,
+			success: function(discipline) {
 							
 				$('#tabelaResultados > tbody > tr').remove();
-		
-				for(i=0; i < json.length; i++) {
+
+				for(i=0; i < discipline.length; i++) {
 					
-					$('#tabelaResultados > tbody').append('<tr> <td> ' + json[i].discipline.name + ' </td> ' +
-			  		                                      '     <td> ' + formatDateBD(json[i].dateStart) + ' </td> ' +
-			  							                  '     <td> ' + formatDateBD(json[i].dateEnd) + ' </td> ' +
-			  							                  '     <td> ' + json[i].discipline.total_classes + ' </td> ' +
+					$('#tabelaResultados > tbody').append('<tr> <td> ' + discipline[i].name + ' </td> ' +
+			  							                  '     <td> ' + discipline[i].total_classes + ' </td> ' +
+			  							                  '     <td> ' + discipline[i].enrollments + ' </td> ' +
 			  							                  '</tr>');
 				}
 			} 
@@ -144,7 +138,7 @@
 			});
 	}
 	</script>
-	
+
 </body>
 
 </html>

@@ -46,8 +46,8 @@ public class EnrollmentService {
 		return enrollmentRepository.save(enrollment);
 	}
 	
-	public boolean unenrollmentStudent(Long id_student, Long id_discipline) {
-		return enrollmentRepository.unenrollmentStudent(id_student, id_discipline);
+	public void unenrollmentStudent(Long id_student, Long id_discipline) {
+		enrollmentRepository.unenrollmentStudent(id_student, id_discipline);
 	}
 	
 	private Date addDays(Date date, Integer days) {
