@@ -34,17 +34,16 @@
 
 										<div class="card">
 											<div class="card-header">
-												<h4>Available Disciplines</h4>
-											</div>
-											
-											<div style="padding-left:23px;" sec:authorize="hasRole('ADMIN')">
-												<h6>Click on the discipline's name to edit.</h6>											
+												<h4>All Disciplines</h4>
 											</div>
 											
 												<div class="card-block table-border-style">
-													<div class="table-responsive">
+												 <div class="table-responsive">
 													
 													<div th:if="${disciplines.size > 0}">
+													
+													<h6 sec:authorize="hasRole('ADMIN')">Click on the discipline's name to edit.</h6>
+													
 													  <form th:action="${!user.isAdmin} ? @{/enrollment} : @{/deleteDiscipline}" method="post">
 														<table class="table">
 															<thead>
@@ -72,8 +71,8 @@
 													 <div th:unless="${disciplines.size > 0}">
 														 	<span>No disciplines available!</span>
 													 </div> 
-												</div>
-											</div>
+											   </div>
+											  </div>
 										</div>
 									<!-- Page-body end -->
 								</div>

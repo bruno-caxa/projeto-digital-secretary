@@ -12,7 +12,6 @@ import com.springboot.entities.Student;
 import com.springboot.entities.Teacher;
 import com.springboot.entities.Usuario;
 import com.springboot.services.DisciplineService;
-import com.springboot.services.EnrollmentService;
 import com.springboot.services.StudentService;
 import com.springboot.services.TeacherService;
 import com.springboot.services.UserService;
@@ -20,9 +19,6 @@ import com.springboot.services.UserService;
 @Controller
 public class WebController {
 
-	@Autowired
-	private EnrollmentService enrollmentService;
-	
 	@Autowired
 	private DisciplineService disciplineService;
 	
@@ -73,20 +69,28 @@ public class WebController {
 		return mav;
 	}
 	
+	@GetMapping(value = "/enrolledDisciplineStudent")
+	public ModelAndView enrolledDisciplineStudent() {
+		ModelAndView mav = new ModelAndView("principal/student/enrolledDisciplines");
+		mav.addObject("user", userService.loadUserSession());
+		mav.addObject("enrollments", studentService.findEnrollments());
+		return mav;
+	}
+	
+	@GetMapping(value = "/enrolledDisciplineTeacher")
+	public ModelAndView enrolledDisciplineTeacher() {
+		ModelAndView mav = new ModelAndView("principal/teacher/enrolledDisciplines");
+		mav.addObject("user", userService.loadUserSession());
+		mav.addObject("disciplines", teacherService.findDisciplines());
+		return mav;
+	}
+	
 	@GetMapping(value = "/enrollTeacherDiscipline")
 	public ModelAndView enrollTeacher() {
 		ModelAndView mav = new ModelAndView("principal/admin/enrollTeacher");
 		mav.addObject("user", userService.loadUserSession());
 		mav.addObject("disciplines", disciplineService.findDisciplinesWithoutTeacher());
 		mav.addObject("teachers", teacherService.findAllTeachers());
-		return mav;
-	}
-	
-	@GetMapping(value = "/enrolledDisciplines")
-	public ModelAndView enrolledDisciplines() {
-		ModelAndView mav = new ModelAndView("principal/student/enrolledDisciplines");
-		mav.addObject("user", userService.loadUserSession());
-		mav.addObject("enrollments", enrollmentService.findByCpf(studentService.findByIdUser().getCpf()));
 		return mav;
 	}
 	
@@ -98,7 +102,7 @@ public class WebController {
 										   .stream()
 										   .anyMatch(r -> r.getAuthority().equals("ROLE_STUDENT")) 
 										   ?disciplineService.findDisciplinesIsNotEnrolled() 
-										   :disciplineService.findAllDisciplines();
+										   :disciplineService.findAll();
 		mav.addObject("user", user);
 		mav.addObject("disciplines", disciplines);
 		mav.addObject("teachers", teacherService.findAllTeachers());

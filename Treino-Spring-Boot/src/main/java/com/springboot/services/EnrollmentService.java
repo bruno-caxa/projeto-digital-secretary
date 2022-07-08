@@ -2,8 +2,6 @@ package com.springboot.services;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,14 +25,6 @@ public class EnrollmentService {
 	
 	@Autowired
 	private StudentRepository studentRepository;
-	
-	
-	public List<Enrollment> findByCpf(String cpf) {
-		return enrollmentRepository.findAll()
-								   .stream()
-								   .filter(e -> e.getStudent().getCpf().equals(cpf))
-								   .collect(Collectors.toList());
-	}
 	
 	public Enrollment enrollmentStudent(Long id_student, Long id_discipline) {
 		Student student = studentRepository.findById(id_student).get();

@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,10 +26,10 @@ public class StudentController {
 	@Autowired
 	private UserService userService;
 	
-	@GetMapping(value = "/deleteStudent/{idStudent}")
-	public ModelAndView deleteStudent(@PathVariable("idStudent") Long idStudent) {
+	@PostMapping(value = "/deleteStudent")
+	public ModelAndView deleteStudent(@RequestParam Long id_student) {
 		ModelAndView mav = new ModelAndView("principal/index");
-		studentService.delete(idStudent);
+		studentService.delete(id_student);
 		mav.addObject("user", userService.loadUserSession());
 		mav.addObject("msg","Student successfully deleted!");
 		return mav;

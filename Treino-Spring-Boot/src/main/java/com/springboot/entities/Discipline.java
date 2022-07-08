@@ -1,8 +1,8 @@
 package com.springboot.entities;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -37,7 +37,7 @@ public class Discipline implements Serializable {
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "id.discipline", cascade = CascadeType.ALL)
-	private Set<Enrollment> enrollments = new HashSet<>();
+	private List<Enrollment> enrollments = new ArrayList<>();
 	
 	public Discipline() {
 		
@@ -82,7 +82,11 @@ public class Discipline implements Serializable {
 		this.teacher = teacher;
 	}
 
-	public Set<Enrollment> getEnrollments() {
+	public List<Enrollment> getEnrollments() {
 		return enrollments;
+	}
+	
+	public void setEnrollments(List<Enrollment> enrollments) {
+		this.enrollments = enrollments;
 	}
 }

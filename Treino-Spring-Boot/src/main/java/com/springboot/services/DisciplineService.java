@@ -1,5 +1,7 @@
 package com.springboot.services;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,8 +27,18 @@ public class DisciplineService {
 	@Autowired
 	private StudentService studentService;
 	
-	public List<Discipline> findAllDisciplines() {
-		return disciplineRepository.findAll();
+	public void delete(Long id) {
+		disciplineRepository.deleteById(id);
+	}
+	
+	public List<Discipline> findAll() {
+		List<Discipline> disciplines = disciplineRepository.findAll();
+		disciplines.sort(Comparator.comparing(Discipline::getName));
+		return disciplines;
+	}
+	
+	public Discipline findById(Long id) {
+		return disciplineRepository.findById(id).get();
 	}
 	
 	public List<Discipline> findDisciplinesIsNotEnrolled() {
@@ -46,14 +58,32 @@ public class DisciplineService {
 				}
 			}
 		}
+		disciplines.sort(Comparator.comparing(Discipline::getName));
 		return disciplines;
 	}
 	
 	public List<Discipline> findDisciplinesWithoutTeacher() {
-		return disciplineRepository.findAll()
-								   .stream()
-								   .filter(d -> d.getTeacher() == null)
-								   .collect(Collectors.toList());
+		List<Discipline> disciplines =  disciplineRepository.findAll()
+								   						    .stream()
+								   						    .filter(d -> d.getTeacher() == null)
+								   						    .collect(Collectors.toList());
+		disciplines.sort(Comparator.comparing(Discipline::getName));
+		return disciplines;
 	}
+	
+	public void save(Discipline discipline) {
+		List<Enrollment> enrollments = enrollmentRepository.findByDiscipline(discipline.getId());
+		discipline.setEnrollments(enrollments);
+		disciplineRepository.save(discipline);
+	}
+	
+	public List<Student> studentsEnrolled(Long id) {
+		List<Student> students = new ArrayList<>();
+		Discipline discipline = findById(id);
+		discipline.getEnrollments().forEach(e -> students.add(e.getStudent()));
+		students.sort(Comparator.comparing(Student::getName));
+		return students;
+	}
+
 	
 }

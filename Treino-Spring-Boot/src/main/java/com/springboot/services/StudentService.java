@@ -1,11 +1,14 @@
 package com.springboot.services;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.springboot.entities.Enrollment;
 import com.springboot.entities.Role;
 import com.springboot.entities.Student;
 import com.springboot.entities.Usuario;
@@ -43,7 +46,9 @@ public class StudentService {
 	}
 	
 	public List<Student> findAllStudents() {
-		return studentRepository.findAll();
+		List<Student> students = studentRepository.findAll();
+		students.sort(Comparator.comparing(Student::getName));
+		return students;
 	}
 	
 	public Student findById(Long id) {
@@ -53,6 +58,11 @@ public class StudentService {
 	public Student findByIdUser() {
 		Usuario usuario = userService.loadUserSession();
 		return studentRepository.getByIdUser(usuario.getId());
+	}
+	
+	public Set<Enrollment> findEnrollments() {
+		Usuario usuario = userService.loadUserSession();
+		return studentRepository.getByIdUser(usuario.getId()).getEnrollments();
 	}
 	
 }

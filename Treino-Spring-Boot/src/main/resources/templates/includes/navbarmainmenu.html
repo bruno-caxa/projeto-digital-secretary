@@ -7,7 +7,7 @@
 	<div class="pcoded-inner-navbar main-menu">
 		<div class="">
 			<div class="main-menu-header">
-				<img class="img-80 img-radius" src="assets/images/avatar-blank.jpg"	alt="User-Profile-Image"></img>
+				<img class="img-80 img-radius" th:src="@{assets/images/avatar-blank.jpg}" alt="User-Profile-Image"></img>
 				<div class="user-details">
 					<span id="more-details" th:text="${user.username}">
 						<i class="fa fa-caret-down"></i>
@@ -138,7 +138,19 @@
 						</li>
 						
 						<li class=" " sec:authorize="hasRole('STUDENT')">
-							<a href="/enrolledDisciplines" class="waves-effect waves-dark"> 
+							<a href="/enrolledDisciplineStudent" class="waves-effect waves-dark"> 
+								<span class="pcoded-micon">
+									<i class="ti-angle-right"></i>
+								</span> 
+								<span class="pcoded-mtext" data-i18n="nav.basic-components.alert">
+									Enrolled Disciplines
+								</span> 
+								<span class="pcoded-mcaret"></span>
+							</a>
+						</li>
+						
+						<li class=" " sec:authorize="hasRole('TEACHER')">
+							<a href="/enrolledDisciplineTeacher" class="waves-effect waves-dark"> 
 								<span class="pcoded-micon">
 									<i class="ti-angle-right"></i>
 								</span> 
